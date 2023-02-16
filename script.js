@@ -11,12 +11,21 @@ function makeNewTodo(todo) {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
+  const todoRemover = document.createElement('button');
+  todoRemover.innerText = 'DELETE';
+
   const choice = makeNewTodo(newTodo.value);
-  // const checkedInput = document.createElement('input[type="checkbox"]');
-  // choice.appendChild(checkedInput);
+  choice.appendChild(todoRemover);
   results.appendChild(choice);
   newTodo.value = '';
-  console.log(e);
+  form.reset();
 });
 
-// todoRemover.item.remove();
+results.addEventListener('click', (e) => {
+  const targetTag = e.target.tagName.toLowerCase();
+  if (targetTag === 'h2') {
+    e.target.style.textDecoration = 'line-through';
+  } else if (targetTag === 'button') {
+    e.target.parentNode.remove();
+  }
+});

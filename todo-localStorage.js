@@ -1,35 +1,35 @@
 /* eslint-disable no-plusplus */
-const form = document.querySelector('#form-container');
-const results = document.querySelector('#results');
+const todoForm = document.querySelector('#todoForm');
+const todoResults = document.querySelector('#results');
 
 // Retrive from localStorage
-const savedTodos = localStorage.getItem('todos') || [];
+const savedTodos = JSON.parse(localStorage.getItem('todos'));
 for (let i = 0; i < savedTodos.length; i++) {
-  const item = document.createElement('h2');
-  item.innerText = savedTodos[i].task;
-  item.isCompleted = !!savedTodos[i].isCompleted;
+  const newTodo = document.createElement('h2');
+  newTodo.innerText = savedTodos[i].task;
+  newTodo.isCompleted = !!savedTodos[i].isCompleted;
   // item.isCompleted = savedTodos[i].isCompleted ? true : false;
-  if (item.isCompleted) {
-    item.style.textDecoration = 'line-through';
+  if (newTodo.isCompleted) {
+    newTodo.style.textDecoration = 'line-through';
   }
-  results.appendChild(item);
+  todoResults.appendChild(newTodo);
 }
 
-form.addEventListener('submit', (e) => {
+todoForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  const item = document.createElement('h2');
+  const newTodo = document.createElement('h2');
   const taskValue = document.getElementById('task').value;
-  item.innerText = taskValue;
-  item.isCompleted = false;
-  form.reset();
-  results.appendChild(item);
+  newTodo.innerText = taskValue;
+  newTodo.isCompleted = false;
+  todoForm.reset();
+  todoResults.appendChild(newTodo);
 
   // Save to localStorage
-  savedTodos.push({ task: item.innerText, isCompleted: false });
+  savedTodos.push({ task: newTodo.innerText, isCompleted: false });
   localStorage.setItem('todos', JSON.stringify(savedTodos));
 });
 
-results.addEventListener('click', (e) => {
+todoResults.addEventListener('click', (e) => {
   const clickedListItem = e.target;
 
   if (!clickedListItem.isCompleted) {
